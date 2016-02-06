@@ -1,0 +1,29 @@
+<%-# ERBのコメント -%>
+
+<%-# %%で囲うことでRubyのコードが書ける -%>
+<%-# firstフラグは最初だけtrueになる -%>
+<%- if first -%>
+<html>
+<body>
+<h1>サンプル</h1>
+<%- end -%>
+
+<%-# 値を出力したいときには%=を使う -%>
+<%# rowにcsvの各行が代入されてくる %>
+<a href="
+mailto:<%= row[:mail] %>
+?subject=XXのお知らせ
+&cc=email_csv2erb@gmail.com
+&body=
+<%= row[:name] %>さん%0D%0A
+いつもお世話になっております%0D%0A
+">MAIL(<%= row[:name] %>)</a><br/><br/>
+<%-# 関係ないけど%0D%0Aはメールの改行を意味するらしい -%>
+
+<%-# lastフラグは最後だけtrueになる -%>
+<%-# rowsにはすべての行のデータが入っている -%>
+<%- if last -%>
+全員の合計年齢は<%= rows.map{|r| r[:age].to_i }.inject(0){|sum,i|sum+=i} %>でした
+</body>
+</html>
+<%- end -%>
