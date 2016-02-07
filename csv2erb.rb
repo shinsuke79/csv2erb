@@ -1,6 +1,7 @@
 require 'pp'
 require 'csv'
 require 'erb'
+require 'benchmark'
 
 class Csv2Erb
   attr_accessor :csv, :erb, :output_file
@@ -15,26 +16,33 @@ class Csv2Erb
   end
 
   def execute(output_file=nil)
-    @output_file = output_file
+    benchmark =  Benchmark.measure do
 
-    # データベースの読み込み
-    abort "## ERROR #{@csv} not found" unless File.exists?(@csv)
-    puts "## Load csv..."
-    @rows = CSV.table(@csv)
-    @rows.each do |row|
-      print "## "
-      pp row
+      @output_file = output_file
+
+      # データベースの読み込み
+      abort "## ERROR #{@csv} not found" unless File.exists?(@csv)
+      puts "## Load csv..."
+      @rows = CSV.table(@csv)
+      @rows.each do |row|
+        print "## "
+        pp row
+      end
+
+      # 読み込んだデータをERBを使用して書き出す
+      raise "## ERROR #{@erb} not found" unless File.exists?(@erb)
+
+      # ファイル指定があるかどうかで切り分け
+      if output_file
+        file_write()
+      else
+        console_out()
+      end
+
     end
 
-    # 読み込んだデータをERBを使用して書き出す
-    raise "## ERROR #{@erb} not found" unless File.exists?(@erb)
-
-    # ファイル指定があるかどうかで切り分け
-    if output_file
-      file_write()
-    else
-      console_out()
-    end
+    puts Benchmark::CAPTION
+    puts benchmark
   end
 
   def console_out
