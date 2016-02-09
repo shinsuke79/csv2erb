@@ -2,6 +2,7 @@ require 'pp'
 require 'csv'
 require 'erb'
 require 'benchmark'
+require 'uri'
 
 class Csv2Erb
   attr_accessor :csv, :erb, :output_file

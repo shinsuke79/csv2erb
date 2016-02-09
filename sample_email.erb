@@ -1,0 +1,27 @@
+<%- if first -%>
+<html>
+<body>
+<h1>Title</h1>
+<%- end -%>
+
+<div>
+<input type="checkbox" name="chkbox" value="0">
+<a href="
+mailto:<%= row[:email] %>
+?subject=Email Title
+&cc=email@email.com
+">MAIL(<%= row[:name] %>)</a><br/><br/>
+
+
+<textarea name="example" cols="50" rows="10">
+<%= row[:name] %>さん
+こんにちは
+</textarea>
+
+</div>
+<br /><br /><br />
+
+<%- if last -%>
+</body>
+</html>
+<%- end -%>
